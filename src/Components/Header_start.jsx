@@ -1,6 +1,6 @@
 import React from 'react'
-import logo from '../../assets/images/logo.png'
-import logo_compact from '../../assets/images/logo-compact.png'
+import logo from '/assets/images/logo.png'
+import logo_compact from '/assets/images/logo-compact.png'
 
 function Header_start() {
     return (
@@ -14,7 +14,7 @@ function Header_start() {
                         <img src='{logo_compact}' alt="" />
                     </span>
                     <span className="brand-title">
-                        <img src="../../assets/images/logo-text.png" alt="" />
+                        <img src="/assets/images/logo-text.png" alt="" />
                     </span>
                 </a>
             </div>

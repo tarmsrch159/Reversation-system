@@ -3,11 +3,14 @@ import Header from '../Components/Header'
 import Header_start from '../Components/Header_start'
 import Sidebar from '../Components/Sidebar'
 import axios from '../api/axios'
+import { writeFile } from 'xlsx';
+import * as XLSX from 'xlsx';
+import { format } from 'date-fns';
 function UsingMeetingRoom({ obtaine_msg }) {
 
     const [dataBookRoom, setDataBookRoom] = useState([])
     let count = 1
-    useEffect(  () => {
+    useEffect(() => {
         try {
             axios.get('/using_meeting_room').then((res) => {
                 setDataBookRoom(res.data)
@@ -16,6 +19,31 @@ function UsingMeetingRoom({ obtaine_msg }) {
             alert(error)
         }
     }, [])
+
+
+    const data = dataBookRoom.map((res, index) => {
+        const fullName = res.name + ' ' + res.lastname
+        const formatStartTime = format(new Date(res.startTime), 'dd/MM/yyyy HH:mm:ss');
+        const formatEndTime = format(new Date(res.endTime), 'dd/MM/yyyy HH:mm:ss');
+
+        return {
+            "ลำดับ": index + 1,
+            "หัวข้อการประชุม": res.event,
+            "ห้อง": res.room_name,
+            "ชื่อ-นามสกุล": fullName,
+            "เริ่มการประชุม": formatStartTime,
+            "จบการประชุม": formatEndTime,
+        }
+    })
+
+
+
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+        XLSX.writeFile(workbook, 'data.xlsx');
+    };
     return (
         <div>
             < Header_start />
@@ -27,7 +55,11 @@ function UsingMeetingRoom({ obtaine_msg }) {
                         <div className="card">
                             <div className="card-body">
                                 <div className="card-title">
-                                    <h3>การใช้ห้องประชุม</h3>
+                                    <div className="row d-flex justify-content-between">
+                                    <h3 className='ml-3'>การใช้ห้องประชุม</h3>
+                                    <button className='btn btn-success' onClick={exportToExcel}>ออกรายงาน</button>
+
+                                    </div>
                                 </div>
                                 <div className="table-responsive">
                                     <table className="table table-hover mx-auto">
@@ -35,28 +67,29 @@ function UsingMeetingRoom({ obtaine_msg }) {
                                             <tr>
                                                 <th>ลำดับ</th>
                                                 <th>หัวข้อการประชุม</th>
-                                                <th>ห้องในการใช้ประชุม</th>
-                                                <th>ชื่อ-นามสกุล และ แผนก ผู้ที่จอง</th>
-                                                <th>วันและเวลาที่เริ่มการประชุม</th>
-                                                <th>วันและเวลาที่จบการประชุม</th>
+                                                <th>ห้อง</th>
+                                                <th>ชื่อ-นามสกุล</th>
+                                                <th>เริ่มการประชุม</th>
+                                                <th>จบการประชุม</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {dataBookRoom.map((items, index) => {
-                                            const startTime = new Date(items.startTime).toLocaleString('en-US')
-                                            const endTime = new Date(items.endTime).toLocaleString('en-US')
-                                            return (
-                                                <tr key={index}>
-                                                    <th>{count++}</th>
-                                                    <td>{items.event}</td>
-                                                    <td>{items.room_name}</td>
-                                                    <td>{items.name} {items.lastname} {items.department}</td>
-                                                    <td>{startTime}</td>
-                                                    <td>{endTime}</td>
-                                                </tr>
-                                            )
-                                           })}
-                                            
+                                            {dataBookRoom.map((items, index) => {
+
+                                                const formatStartTime = format(new Date(items.startTime), 'dd/MM/yyyy HH:mm:ss');
+                                                const formatEndTime = format(new Date(items.endTime), 'dd/MM/yyyy HH:mm:ss');
+                                                return (
+                                                    <tr key={index}>
+                                                        <th>{count++}</th>
+                                                        <td>{items.event}</td>
+                                                        <td>{items.room_name}</td>
+                                                        <td>{items.name} {items.lastname} {items.department}</td>
+                                                        <td>{formatStartTime}</td>
+                                                        <td>{formatEndTime}</td>
+                                                    </tr>
+                                                )
+                                            })}
+
                                         </tbody>
                                     </table>
                                 </div>

@@ -133,7 +133,12 @@ function Book_room({ obtaine_msg }) {
     };
 
     const Create_Event_Fun = async () => {
-        
+
+        if (endTime < startTime) {
+            alert('กรุณาเลือกวันและเวลาใหม่อีกครั้ง')
+            return;
+        }
+
         if (eventName) {
             const newEvent = {
                 id_meeting: new Date().getTime(),
@@ -226,7 +231,20 @@ function Book_room({ obtaine_msg }) {
         setDbEndTime(`${E_hour}:${E_minute}:${E_second}`);
     }, [startTime, endTime]);
 
-    
+
+
+    const handleChange = (event) => {
+        const valueTel = event.target.value;
+        const numericValue = valueTel.replace(/[^0-9]/g, '');
+        
+        if (valueTel != numericValue){
+            alert('กรุณาป้อนตัวเลข')
+        }
+
+        setTel(numericValue);
+      };
+
+
     return (
         <>
             < Header_start />
@@ -297,8 +315,8 @@ function Book_room({ obtaine_msg }) {
                                                     label="เลือกเวลาสำหรับเริ่มการประชุม"
                                                     value={value}
                                                     onChange={(newValue) => setStartTime(newValue)}
-                                                    // onChange={(value) => alert('New date is: ', value)}
-                                                    // format='d/MM/y h:mm:ss a'
+                                                // onChange={(value) => alert('New date is: ', value)}
+                                                // format='d/MM/y h:mm:ss a'
                                                 />
                                             </LocalizationProvider>
 
@@ -346,7 +364,8 @@ function Book_room({ obtaine_msg }) {
                                                 type="text"
                                                 className="form-control input-default"
                                                 placeholder="เบอร์โทร (สำหรับติดต่อ)"
-                                                onChange={(e) => setTel(e.target.value)}
+                                                value={tel}
+                                                onChange={handleChange}
                                             />
                                         </div>
 
