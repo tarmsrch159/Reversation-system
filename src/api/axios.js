@@ -1,5 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL: 'http://localhost:7000'
+    // baseURL: 'https://empty-magnetic-shamrock.glitch.me',
+    baseURL: 'http://localhost:7000',
+    
 })

@@ -11,6 +11,8 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import { Modal } from 'antd'
+import { FcHighPriority } from "react-icons/fc";
 
 // dayjs.extend(utc);
 // dayjs.extend(timezone);
@@ -104,7 +106,9 @@ function Book_room({ obtaine_msg }) {
 
     const [dbStartTime, setDbStartTime] = useState('')
     const [dbEndTime, setDbEndTime] = useState('')
-
+    //Modal alert
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalContent, setModalContent] = useState('');
     //dateTime
     const [date, setDate] = useState(null)
 
@@ -133,9 +137,26 @@ function Book_room({ obtaine_msg }) {
     };
 
     const Create_Event_Fun = async () => {
-
-        if (endTime < startTime) {
-            alert('กรุณาเลือกวันและเวลาใหม่อีกครั้ง')
+        if (eventName === '') {
+            showAlert('กรุณาใส่หัวข้อการประชุม !!!');
+            return;
+        } else if (meeting_Room === '') {
+            showAlert('กรุณาเลือกห้องประชุม !!!');
+            return;
+        } else if (endTime < startTime) {
+            showAlert('กรุณาเลือกวันและเวลาใหม่อีกครั้ง');
+            return;
+        } else if (name === '') {
+            showAlert('กรุณาใส่ชื่อ !!!');
+            return;
+        } else if (lastname === '') {
+            showAlert('กรุณาใส่นามสกุล !!!');
+            return;
+        } else if (tel === '') {
+            showAlert('กรุณาใส่เบอร์โทรศัพท์ !!!');
+            return;
+        } else if (department === '') {
+            showAlert('กรุณาใส่หน่วยงาน !!!');
             return;
         }
 
@@ -171,9 +192,32 @@ function Book_room({ obtaine_msg }) {
 
         }
 
-
-
     };
+
+    const handleChange = (event) => {
+        const valueTel = event.target.value;
+        const numericValue = valueTel.replace(/[^0-9]/g, '');
+
+        if (valueTel != numericValue) {
+            showAlert('กรุณาป้อนตัวเลข !!!');
+            return;
+        }
+
+        setTel(numericValue);
+    };
+
+    const showAlert = (content) => {
+        setModalContent(content);
+        setIsModalVisible(true);
+    };
+
+
+    const handleModalOk = () => {
+        setIsModalVisible(false);
+    };
+
+
+
 
     const Update_Event_Fun = (eventId, newName) => {
         const updated_Events = events.map((event) => {
@@ -233,16 +277,7 @@ function Book_room({ obtaine_msg }) {
 
 
 
-    const handleChange = (event) => {
-        const valueTel = event.target.value;
-        const numericValue = valueTel.replace(/[^0-9]/g, '');
-        
-        if (valueTel != numericValue){
-            alert('กรุณาป้อนตัวเลข')
-        }
 
-        setTel(numericValue);
-      };
 
 
     return (
@@ -461,8 +496,20 @@ function Book_room({ obtaine_msg }) {
                                 </div>{" "}
                             </div>
                         )}{" "} */}
-                    </div>{" "}
-                </div>{" "}
+                    </div>
+
+                    <Modal
+                        title={<div >พบข้อผิดพลาด</div>}
+                        visible={isModalVisible}
+                        onOk={handleModalOk}
+                        onCancel={handleModalOk}
+                        bodyStyle={{ fontFamily: 'Sarabun',height: '200px', overflowY: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+                    >
+                        <FcHighPriority size={100} />
+                        <br />
+                        <h4 style={{ color: '#F39C12', textAlign: 'center' }}>{modalContent}</h4>
+                    </Modal>
+                </div>
             </div>
         </>
     )

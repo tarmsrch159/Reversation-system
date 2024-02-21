@@ -10,6 +10,7 @@ The smaller device rules always should write below the bigger device rules
 Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Component
 */
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100;200;300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300&family=Kanit:wght@100;400&family=Sarabun&display=swap');
 @import url(../icons/font-awesome/css/font-awesome.min.css);
 @import url(../icons/simple-line-icons/css/simple-line-icons.css);
@@ -115,7 +116,8 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: "Kanit", sans-serif;
+  font-family: "Sarabun", sans-serif;
+  /* font-family: 'Sarubun'; */
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;

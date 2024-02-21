@@ -5,6 +5,10 @@ import AuthService from '../context/Auth_2';
 import { useState, useEffect } from "react";
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+//Icons
+import { FcHome } from "react-icons/fc";
+import { FcNext } from "react-icons/fc";
 function Login_admin() {
     // const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [username, setUsername] = useState('');
@@ -33,6 +37,10 @@ function Login_admin() {
             console.error('Login failed', error);
         }
     };
+
+    const handleHome = () => {
+        window.location.href = '/'
+    }
 
     useEffect(() => {
         // document.body.classList.add()
@@ -69,12 +77,27 @@ function Login_admin() {
                                                 onChange={(e) => setPassword(e.target.value)}
                                             />
                                         </div>
-                                        <button className="btn login-form__btn submit w-100" onClick={handleLogin}>
-                                            เข้าสู่ระบบ
-                                        </button>
-
 
                                     </form>
+                                    <div className="row">
+                                        <div className="col">
+                                            <button className="btn btn-warning w-100" onClick={handleHome}>
+                                                <FcHome size={20} style={{ marginRight: '10px' }} />
+
+                                                กลับหน้าหลัก
+                                            </button>
+                                        </div>
+                                        <div className="col">
+                                            <button className="btn btn-success w-100" onClick={handleLogin}>
+                                                เข้าสู่ระบบ
+
+                                                <FcNext size={20} style={{ marginLeft: '10px' }} />
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+
                                     {/* <p className="mt-5 login-form__footer">
                                         Dont have account?{" "}
                                         <a href="page-register.html" className="text-primary">
@@ -100,10 +123,11 @@ function Login_admin() {
                 draggable
                 pauseOnHover
                 theme="dark"
-                transition: Zoom
+                transition:Zoom
             />
 
         </div>
+        
 
     )
 }

@@ -12,6 +12,7 @@ import { FcViewDetails } from "react-icons/fc";
 import { FcTodoList } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
 import { FcNext } from "react-icons/fc";
+import { MdPersonAddAlt1 } from "react-icons/md";
 function Sidebar() {
 
     const [dashboard_Ac, setDasboard_Ac] = useState('')
@@ -116,6 +117,16 @@ function Sidebar() {
 
                                 <hr />
 
+                                <NavLink to='/protectRoute/Ad_admin' className={({ isActive }) => (isActive ? 'active' : 'inactive')} >
+                                    <li className="mega-menu mega-menu-sm">
+                                        <a className="" href="#" aria-expanded={expand_Ac} style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                            <MdPersonAddAlt1 />
+
+                                            <span className="nav-text">เพิ่มข้อมูล ผู้ดูแล</span>
+                                        </a>
+                                    </li>
+                                </NavLink>
+
                                 <NavLink to='#' className={({ isActive }) => (isActive ? 'active' : 'inactive')} onClick={handleLogout} >
                                     <li className="mega-menu mega-menu-sm">
                                         <a className="" href="#" aria-expanded={expand_Ac} style={{ display: 'flex', justifyContent: 'space-around' }}>
@@ -132,7 +143,7 @@ function Sidebar() {
                         </>
 
                         : <>
-                            (
+
                             <ul className="metismenu" id="menu">
                                 <li className="nav-label">Dashboard</li>
                                 <NavLink to='/' className={({ isActive }) => (isActive ? 'mega-menu mega-menu-sm active' : 'inactive')}>
@@ -180,14 +191,14 @@ function Sidebar() {
                                 <NavLink to='/login_admin' className={({ isActive }) => (isActive ? 'active' : 'inactive')} >
                                     <li className="mega-menu mega-menu-sm">
                                         <a className="" href="#" aria-expanded={expand_Ac} style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                            <FcNext/>
+                                            <FcNext />
 
                                             <span className="nav-text">เข้าสู่ระบบ (สำหรับผู้ดูแล)</span>
                                         </a>
                                     </li>
                                 </NavLink>
                             </ul>
-                            )
+
                         </>
                     }
 

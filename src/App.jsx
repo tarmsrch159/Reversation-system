@@ -18,6 +18,7 @@ import UsingMeetingRoom from './Pages/UsingMeetingRoom'
 import Login_admin from './Pages/Login_admin'
 import ProtectComponent from './Components/ProtectComponent'
 import DashboardRoom from './Pages/DashboardRoom'
+import Ad_Admin from './Pages/Ad_Admin'
 
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
@@ -43,6 +44,7 @@ function App() {
               <Route path='all_meeting_room' element={< All_meeting_room obtaine_msg={obtaine_msg} />}></Route>
               <Route path='add_meeting_room' element={< Add_meeting_room obtaine_msg={obtaine_msg} />}></Route>
               <Route path='test_calendar_2' element={< Test_calendar_2 obtaine_msg={obtaine_msg} />}></Route>
+              <Route path='Ad_admin' element={< Ad_Admin obtaine_msg={obtaine_msg} />}></Route>
             </Route>
             <Route path='/login_admin' element={< Login_admin obtaine_msg={obtaine_msg} />}></Route>
             <Route path='/' element={< Calendar obtaine_msg={obtaine_msg} />}></Route>

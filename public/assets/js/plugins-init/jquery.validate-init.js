@@ -16,6 +16,10 @@ jQuery(".form-valide").validate({
             required: !0,
             equalTo: "#val-password"
         },
+        "val-tel": {
+            required: !0,
+            minlength: 10
+        },
         "val-select2": {
             required: !0
         },
@@ -72,6 +76,10 @@ jQuery(".form-valide").validate({
             required: "Please provide a password",
             minlength: "Your password must be at least 5 characters long",
             equalTo: "Please enter the same password as above"
+        },
+        "val-tel": {
+            required: "กรุณาใส่เบอร์โทรศัพท์",
+            minlength: "เบอร์โทรของคุณต้องมีอย่างน้อง 10 ตัว"
         },
         "val-select2": "Please select a value!",
         "val-select2-multiple": "Please select at least 2 values!",

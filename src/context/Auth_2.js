@@ -4,7 +4,11 @@ import { Navigate } from "react-router-dom";
 
 const AuthService = {
   login: async (username, password) => {
-    const response = await axios.post(`/login_admin`, { username, password });
+    const response = await axios.post(`/login_admin`, { username, password }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     const adminData = response.data.result[0]
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);

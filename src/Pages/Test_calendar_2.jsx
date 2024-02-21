@@ -29,6 +29,9 @@ import { MdCancelPresentation } from "react-icons/md";
 import { FaRegSave } from "react-icons/fa";
 import { blue } from '@mui/material/colors';
 
+//SetTimeout
+import useSessionTimeout from '../Timeout/UseSessionTimeout';
+
 
 ReactModal.setAppElement('#root');
 
@@ -71,6 +74,8 @@ localizer.formats.eventTimeRangeFormat = ({ start, end }, culture, local) =>
 
 
 function TestCalendar2() {
+    const timeLeft = 3800000
+    useSessionTimeout(timeLeft)
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [events, setEvents] = useState([]);
@@ -90,7 +95,6 @@ function TestCalendar2() {
     //     department: '',
     // })
 
-
     const handleInputbox = () => {
         setChangeInputbox(!changeInputbox)
     }
@@ -100,33 +104,36 @@ function TestCalendar2() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:7000/mark_event');
-                const result = await response.json();
+                await axios.get('/mark_event').then((res) => {
+                    let result = res.data
+                    setEvents(
+                        result.map((res) => {
+                            const start = new Date(res.startTime);
+                            const end = new Date(res.endTime);
+    
+                            // if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+                            //     console.error('Invalid date');
+                            // } else {
+                            //     console.log('valid date', start)
+                            // }
+    
+                            return {
+                                event_id: res.id,
+                                title: res.event,
+                                room_name: res.room_name,
+                                name: res.name,
+                                lastname: res.lastname,
+                                tel: res.tel,
+                                department: res.department,
+                                start: start,
+                                end: end,
+                            };
+                        })
+                    );
+                });
+                // const result = await response.json();
 
-                setEvents(
-                    result.map((res) => {
-                        const start = new Date(res.startTime);
-                        const end = new Date(res.endTime);
-
-                        // if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-                        //     console.error('Invalid date');
-                        // } else {
-                        //     console.log('valid date', start)
-                        // }
-
-                        return {
-                            event_id: res.id,
-                            title: res.event,
-                            room_name: res.room_name,
-                            name: res.name,
-                            lastname: res.lastname,
-                            tel: res.tel,
-                            department: res.department,
-                            start: start,
-                            end: end,
-                        };
-                    })
-                );
+                
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -241,7 +248,7 @@ function TestCalendar2() {
                 backgroundColor: isOverlapping ? 'red' : 'blue',
                 borderRadius: '0px',
                 opacity: 0.8,
-                color: 'black',
+                color: 'wihte',
                 border: '0px',
                 display: 'block'
             },
@@ -510,9 +517,14 @@ function TestCalendar2() {
             {children}
         </div>
     );
+    
+    const calendarStyle = {
+        height: '500px',
+        overflowY: 'scroll'
+    }
 
     return (
-        <div>
+        <div  >
 
             <Calendar
                 localizer={localizer}
